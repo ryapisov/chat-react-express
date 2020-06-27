@@ -6,6 +6,7 @@ import Col         from 'react-bootstrap/Col'
 import InfoBar     from '../../components/InfoBar'
 import InputSend   from '../../components/InputSend'
 import Messages    from '../../components/Messages'
+import Users       from '../../components/Users'
 
 let socket
 
@@ -53,7 +54,7 @@ const Chat =({location})=>{
       <InfoBar room={room}/>
       <Row className="justify-content-md-center mt-5">
         <Col xs lg="2" className="bg-warning">
-          999
+          <Users />
         </Col>
         <Col xs lg="6">
           <Messages messages={messages} name={name}/>
