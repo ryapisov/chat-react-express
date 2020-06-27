@@ -1,36 +1,67 @@
-import React   from 'react'
-import Row     from 'react-bootstrap/Row'
-import Col     from 'react-bootstrap/Col'
-import Badge   from 'react-bootstrap/Badge'
-import Message from '../../components/Message'
-import User    from '../../components/User'
-import socket    from '../../socket'
+import React, {useState, useEffect} from 'react'
+import queryString from 'query-string'
+import io          from 'socket.io-client'
+import Row         from 'react-bootstrap/Row'
+import Col         from 'react-bootstrap/Col'
+import InfoBar     from '../../components/InfoBar'
+import InputSend   from '../../components/InputSend'
+import Messages    from '../../components/Messages'
 
-export default ()=>{
+let socket
 
-  function element(e){
-    e.scrollTop = e.scrollHeight
+const Chat =({location})=>{
+  const [name, setName] = useState('')
+  const [room, setRoom] = useState('')
+  const [message, setMessage] = useState('')
+  const [messages, setMessages] = useState([])
+  const ENDPOINT = 'localhost:5000'
+
+  useEffect(()=>{
+    const {name, room, chat} = queryString.parse(location.search)
+
+    socket = io(ENDPOINT)
+    setName(name)
+    setRoom(room)
+
+    socket.emit('join', {name, room}, ()=>{})
+
+    return ()=>{
+      socket.emit('disconnect')
+      socket.off()
+    }
+
+  }, [ENDPOINT, location.search])
+
+
+  useEffect(()=>{
+    socket.on('message', (message)=>{
+      setMessages([...messages, message])
+    })
+  }, [messages])
+
+  // function for sending messages
+  const sendMessage =(e)=>{
+    e.preventDefault()
+
+    if(message){
+      socket.emit('sendMessage', message, ()=> setMessage(''))
+    }
   }
 
-  return (
+  return(
     <>
-    <Row className="justify-content-md-center mt-5">
-      <Col xs lg="3" className="p-0" style={{background:'#E6E6FA'}}>
-        <div className="mb-2 mt-2">Пользователи: &nbsp;
-          <Badge variant="success">9</Badge>
-        </div>
-        <User />
-      </Col>
-      <Col xs lg="6">
-      <div style={{overflowY: 'auto', height:'333px'}} ref={(e)=>element(e)}>
-        <Message variant="primary"/>
-        <Message variant="success"/>
-        <Message variant="success"/>
-        <Message variant="success"/>
-        <Message variant="success"/>
-      </div>
-      </Col>
-    </Row>
+      <InfoBar room={room}/>
+      <Row className="justify-content-md-center mt-5">
+        <Col xs lg="2" className="bg-warning">
+          999
+        </Col>
+        <Col xs lg="6">
+          <Messages messages={messages} name={name}/>
+          <InputSend message={message} setMessage={setMessage} sendMessage={sendMessage}/>
+        </Col>
+      </Row>
     </>
   )
 }
+
+export default Chat

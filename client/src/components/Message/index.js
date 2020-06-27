@@ -1,6 +1,7 @@
 import React from 'react'
+import Alert from 'react-bootstrap/Alert'
 
-const Message = ({message: {user, text}, name})=>{
+const Message = ({message: {user, text}, name, variant})=>{
   let isSentByCurrentUser = false
 
   const trimmedName = name.trim().toLowerCase()
@@ -12,38 +13,14 @@ const Message = ({message: {user, text}, name})=>{
   return(
     isSentByCurrentUser
       ?
-        <p>
-          {trimmedName}
-          {text}
-        </p>
+        <Alert key="0" variant={variant} style={{background:'#483D8B', color:'#fff'}}>
+          {trimmedName}<br/>{text}
+        </Alert>
       :
-        <p>
-          {trimmedName}
-          {text}
-        </p>
-
-
+        <Alert key="0" variant={variant} style={{background:'#483D8B', color:'#fff'}}>
+          {trimmedName}<br/>{text}
+        </Alert>
   )
-
 }
 
-
-
 export default Message
-
-
-
-
-
-
-
-// import Alert from 'react-bootstrap/Alert'
-// import Form from 'react-bootstrap/Form'
-//
-// export default function message({variant}){
-//   return (
-//     <Alert key="0" variant={variant} style={{background:'#483D8B', color:'#fff'}}>
-//      This is a  alert—check it out!<br/>asdfsadfs
-//     </Alert>
-//   )
-// }
