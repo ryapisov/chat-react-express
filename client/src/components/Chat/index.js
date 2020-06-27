@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import queryString from 'query-string'
 import io from 'socket.io-client'
 import InfoBar from '../InfoBar'
-import Input from '../Input'
+import InputSend from '../InputSend'
 import Messages from '../Messages'
 
 let socket
@@ -55,9 +55,8 @@ const Chat =({location})=>{
       <h1>Chat</h1>
       <InfoBar room={room}/>
       <Messages messages={messages} name={name}/>
-      <Input message={message} setMessage={setMessage} sendMessage={sendMessage}/>
-      <div></div>
-      <div></div>
+      <InputSend message={message} setMessage={setMessage} sendMessage={sendMessage}/>
+
       <div></div>
     </>
   )

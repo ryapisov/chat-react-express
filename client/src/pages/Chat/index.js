@@ -2,7 +2,6 @@ import React   from 'react'
 import Row     from 'react-bootstrap/Row'
 import Col     from 'react-bootstrap/Col'
 import Badge   from 'react-bootstrap/Badge'
-import Send    from '../../components/Send'
 import Message from '../../components/Message'
 import User    from '../../components/User'
 import socket    from '../../socket'
@@ -30,7 +29,6 @@ export default ()=>{
         <Message variant="success"/>
         <Message variant="success"/>
       </div>
-      <Send />
       </Col>
     </Row>
     </>
